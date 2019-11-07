@@ -124,6 +124,7 @@ void InitialStateAppender::AddStruckParticle(GHepRecord * evrec) const
                proc_info.IsIMDAnnihilation()   ||
                proc_info.IsNuElectronElastic() ||
                proc_info.IsDarkMatterElectronElastic() ||
+               // proc_info.IsDarkNeutrinoElectronElastic() || // TODO DNU: DNu elastic scattering of electron?
                proc_info.IsGlashowResonance();
 
   if(hit_e) {

@@ -8,6 +8,9 @@
 
          Changes required to implement the GENIE Boosted Dark Matter module
          were installed by Josh Berger (Univ. of Wisconsin)
+
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
 */
 //____________________________________________________________________________
 
@@ -124,17 +127,19 @@ double KPhaseSpace::Threshold(void) const
 
   if(pi.IsQuasiElastic()            ||
      pi.IsDarkMatterElastic()       ||
+     pi.IsDarkNeutrinoElastic()     ||
      pi.IsInverseBetaDecay()        ||
      pi.IsResonant()                ||
      pi.IsDeepInelastic()           ||
      pi.IsDarkMatterDeepInelastic() ||
+     pi.IsDarkNeutrinoDeepInelastic() ||
      pi.IsDiffractive())
   {
     assert(tgt.HitNucIsSet());
     double Mn   = tgt.HitNucP4Ptr()->M();
     double Mn2  = TMath::Power(Mn,2);
     double Wmin = kNucleonMass + kPionMass;
-    if ( pi.IsQuasiElastic() || pi.IsDarkMatterElastic() || pi.IsInverseBetaDecay() ) {
+    if ( pi.IsQuasiElastic() || pi.IsDarkMatterElastic() || pi.IsDarkNeutrinoElastic() || pi.IsInverseBetaDecay() ) {
       int finalNucPDG = tgt.HitNucPdg();
       if ( pi.IsWeakCC() ) finalNucPDG = pdg::SwitchProtonNeutron( finalNucPDG );
       Wmin = PDGLibrary::Instance()->Find( finalNucPDG )->Mass();
@@ -161,12 +166,21 @@ double KPhaseSpace::Threshold(void) const
     double smin = TMath::Power(Wmin+ml,2.);
     double Ethr = 0.5*(smin-Mn2)/Mn;
     // threshold is different for dark matter case
-    if(pi.IsDarkMatterElastic() || pi.IsDarkMatterDeepInelastic()) {
+    if(pi.IsDarkMatterElastic() || pi.IsDarkNeutrinoElastic() || pi.IsDarkMatterDeepInelastic()) {
       // Correction to minimum kinematic variables
       Wmin = Mn;
       smin = TMath::Power(Wmin+ml,2);
       Ethr = TMath::Max(0.5*(smin-Mn2-ml*ml)/Mn,ml);
     }
+
+    // // TODO DNU: check block
+    // // threshold is different for dark matter case
+    // if(pi.IsDarkMatterElastic() || pi.IsDarkMatterDeepInelastic()) {
+    //   // Correction to minimum kinematic variables
+    //   Wmin = Mn;
+    //   smin = TMath::Power(Wmin+ml,2);
+    //   Ethr = TMath::Max(0.5*(smin-Mn2-ml*ml)/Mn,ml);
+    // }
 
     return TMath::Max(0.,Ethr);
   }
@@ -176,7 +190,7 @@ double KPhaseSpace::Threshold(void) const
     return TMath::Max(0.,Ethr);
   }
 
-  if(pi.IsNuElectronElastic() || pi.IsDarkMatterElectronElastic() || pi.IsGlashowResonance() ) {
+  if(pi.IsNuElectronElastic() || pi.IsDarkMatterElectronElastic() || pi.IsDarkNeutrinoElectronElastic() || pi.IsGlashowResonance() ) {
     return 0;
   }
   if(pi.IsAMNuGamma()) {
@@ -252,6 +266,7 @@ bool KPhaseSpace::IsAboveThreshold(void) const
       pi.IsIMDAnnihilation()    ||
       pi.IsNuElectronElastic()  ||
       pi.IsDarkMatterElectronElastic() ||
+      pi.IsDarkNeutrinoElectronElastic() ||
       pi.IsMEC())
   {
       E = init_state.ProbeE(kRfLab);
@@ -259,10 +274,12 @@ bool KPhaseSpace::IsAboveThreshold(void) const
 
   if(pi.IsQuasiElastic()            ||
      pi.IsDarkMatterElastic()       ||
+     pi.IsDarkNeutrinoElastic()       ||
      pi.IsInverseBetaDecay()        ||
      pi.IsResonant()                ||
      pi.IsDeepInelastic()           ||
      pi.IsDarkMatterDeepInelastic() ||
+     pi.IsDarkNeutrinoDeepInelastic() ||
      pi.IsDiffractive()             ||
      pi.IsSingleKaon()              ||
      pi.IsAMNuGamma())
@@ -288,7 +305,7 @@ bool KPhaseSpace::IsAllowed(void) const
 
   // QEL:
   //  Check the running Q2 vs the Q2 limits
-  if(pi.IsQuasiElastic() || pi.IsInverseBetaDecay() || pi.IsDarkMatterElastic()) {
+  if(pi.IsQuasiElastic() || pi.IsInverseBetaDecay() || pi.IsDarkMatterElastic() || pi.IsDarkNeutrinoElastic()) {
     Range1D_t Q2l = this->Q2Lim();
     double    Q2  = kine.Q2();
     bool in_phys = math::IsWithinLimits(Q2, Q2l);
@@ -310,7 +327,7 @@ bool KPhaseSpace::IsAllowed(void) const
   }
 
   // DIS
-  if(pi.IsDeepInelastic() || pi.IsDarkMatterDeepInelastic()) {
+  if(pi.IsDeepInelastic() || pi.IsDarkMatterDeepInelastic() || pi.IsDarkNeutrinoDeepInelastic()) {
     Range1D_t Wl  = this->WLim();
     Range1D_t Q2l = this->Q2Lim_W();
     double    W   = kine.W();
@@ -321,7 +338,7 @@ bool KPhaseSpace::IsAllowed(void) const
   }
 
   //IMD
-  if(pi.IsInverseMuDecay() || pi.IsIMDAnnihilation() || pi.IsNuElectronElastic() || pi.IsDarkMatterElectronElastic()) {
+  if(pi.IsInverseMuDecay() || pi.IsIMDAnnihilation() || pi.IsNuElectronElastic() || pi.IsDarkMatterElectronElastic() || pi.IsDarkNeutrinoElectronElastic()) {
     Range1D_t yl = this->YLim();
     double    y  = kine.y();
     bool in_phys = math::IsWithinLimits(y, yl);
@@ -405,9 +422,10 @@ Range1D_t KPhaseSpace::WLim(void) const
   const ProcessInfo & pi = fInteraction->ProcInfo();
 
   bool is_em = pi.IsEM();
-  bool is_qel  = pi.IsQuasiElastic()  || pi.IsInverseBetaDecay() || pi.IsDarkMatterElastic();
+  bool is_qel  = pi.IsQuasiElastic()  || pi.IsInverseBetaDecay() || pi.IsDarkMatterElastic() || pi.IsDarkNeutrinoElastic();
   bool is_inel = pi.IsDeepInelastic() || pi.IsResonant() || pi.IsDiffractive();
   bool is_dmdis = pi.IsDarkMatterDeepInelastic();
+  bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
 
   if(is_qel) {
     double MR = fInteraction->RecoilNucleon()->Mass();
@@ -484,6 +502,8 @@ Range1D_t KPhaseSpace::Q2Lim_W(void) const
   bool is_coh   = pi.IsCoherentProduction();
   bool is_dme   = pi.IsDarkMatterElastic();
   bool is_dmdis = pi.IsDarkMatterDeepInelastic();
+  bool is_dnue   = pi.IsDarkNeutrinoElastic();
+  bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
 
   if(!is_qel && !is_inel && !is_coh && !is_dme && !is_dmdis) return Q2l;
 
@@ -541,6 +561,8 @@ Range1D_t KPhaseSpace::Q2Lim(void) const
   bool is_cevns = pi.IsCoherentElastic();
   bool is_dme   = pi.IsDarkMatterElastic();
   bool is_dmdis = pi.IsDarkMatterDeepInelastic();
+  bool is_dnue   = pi.IsDarkNeutrinoElastic();
+  bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
 
   if(!is_qel && !is_inel && !is_coh && !is_cevns && !is_dme && !is_dmdis) return Q2l;
 
@@ -673,6 +695,16 @@ Range1D_t KPhaseSpace::XLim(void) const
     xl = kinematics::DarkXLim(Ev,M,ml);
     return xl;
   }
+  //DNuDIS
+  bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
+  if(is_dnudis) {
+    const InitialState & init_state  = fInteraction->InitState();
+    double Ev  = init_state.ProbeE(kRfHitNucRest);
+    double M   = init_state.Tgt().HitNucP4Ptr()->M(); // can be off m/shell
+    double ml  = fInteraction->FSPrimLepton()->Mass();
+    xl = kinematics::DarkXLim(Ev,M,ml); // TODO DNU: check this line
+    return xl;
+  }
   //COH
   bool is_coh = pi.IsCoherentProduction();
   if(is_coh) {
@@ -680,7 +712,7 @@ Range1D_t KPhaseSpace::XLim(void) const
     return xl;
   }
   //QEL
-  bool is_qel = pi.IsQuasiElastic() || pi.IsInverseBetaDecay() || pi.IsDarkMatterElastic();
+  bool is_qel = pi.IsQuasiElastic() || pi.IsInverseBetaDecay() || pi.IsDarkMatterElastic() || pi.IsDarkNeutrinoElastic();
   if(is_qel) {
     xl.min = 1;
     xl.max = 1;
@@ -725,6 +757,16 @@ Range1D_t KPhaseSpace::YLim(void) const
     yl = kinematics::DarkYLim(Ev,M,ml);
     return yl;
   }
+  //DNuDIS
+  bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
+  if(is_dnudis) {
+    const InitialState & init_state = fInteraction->InitState();
+    double Ev  = init_state.ProbeE(kRfHitNucRest);
+    double M   = init_state.Tgt().HitNucP4Ptr()->M(); // can be off m/shell
+    double ml  = fInteraction->FSPrimLepton()->Mass();
+    yl = kinematics::DarkYLim(Ev,M,ml); // TODO DNU: check this line
+    return yl;
+  }
   //COH
   bool is_coh = pi.IsCoherentProduction();
   if(is_coh) {
@@ -754,6 +796,17 @@ Range1D_t KPhaseSpace::YLim(void) const
     yl.max = 1.0 - controls::kASmallNum;
     return yl;
   }  
+  // TODO DNU EDIT: y limits are different for massive probe
+  if(pi.IsDarkNeutrinoElectronElastic()) {
+    const InitialState & init_state = fInteraction->InitState();
+    double Ev = init_state.ProbeE(kRfLab);
+    double ml = fInteraction->FSPrimLepton()->Mass();
+    double me = kElectronMass;
+    // TODO DNU: check this two lines
+    yl.min = (Ev*me*me + ml*ml*(Ev + 2.0*me)) / (Ev * (2.0*Ev*me + me*me + ml*ml)) + controls::kASmallNum;
+    yl.max = 1.0 - controls::kASmallNum;
+    return yl;
+  }
   bool is_dfr = pi.IsDiffractive();
   if(is_dfr) {
     const InitialState & init_state = fInteraction -> InitState();
@@ -797,6 +850,17 @@ Range1D_t KPhaseSpace::YLim_X(void) const
     double ml  = fInteraction->FSPrimLepton()->Mass();
     double x   = fInteraction->Kine().x();
     yl = kinematics::DarkYLim_X(Ev,M,ml,x);
+    return yl;
+  }
+  //DNuDIS
+  bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
+  if(is_dmdis) {
+    const InitialState & init_state = fInteraction->InitState();
+    double Ev  = init_state.ProbeE(kRfHitNucRest);
+    double M   = init_state.Tgt().HitNucP4Ptr()->M(); // can be off m/shell
+    double ml  = fInteraction->FSPrimLepton()->Mass();
+    double x   = fInteraction->Kine().x();
+    yl = kinematics::DarkYLim_X(Ev,M,ml,x); // TODO DNU: this line
     return yl;
   }
   //COH

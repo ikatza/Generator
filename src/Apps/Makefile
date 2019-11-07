@@ -64,6 +64,11 @@ TGT_BASE += gevgen_dm
 TGT_BASE += gmkspl_dm
 TGT_BASE += gevgen_lardm
 endif
+ifeq ($(strip $(GOPT_ENABLE_DARK_NEUTRINO)),YES)
+TGT_BASE += gevgen_dnu
+TGT_BASE += gmkspl_dnu
+TGT_BASE += gevgen_lardnu
+endif
 ifeq ($(strip $(GOPT_ENABLE_FLUX_DRIVERS)),YES)
 TGT_BASE += gmxpl
 endif
@@ -142,6 +147,12 @@ $(GENIE_BIN_PATH)/gevgen_dm: gEvGenDM.o $(call find_libs,gevgen_dm)
 	@echo "** Building gevgen_dm"
 	$(LD) $(LDFLAGS) gEvGenDM.o $(LIBRARIES) -o $(GENIE_BIN_PATH)/gevgen_dm
 
+# a simple/generic gevgen_dm event generation app for dark neutrino scattering
+#
+$(GENIE_BIN_PATH)/gevgen_dnu: gEvGenDNu.o $(call find_libs,gevgen_dnu)
+	@echo "** Building gevgen_dnu"
+	$(LD) $(LDFLAGS) gEvGenDNu.o $(LIBRARIES) -o $(GENIE_BIN_PATH)/gevgen_dnu
+
 # gevdump event print-out utility
 #
 $(GENIE_BIN_PATH)/gevdump: gEvDump.o $(call find_libs,gevdump)
@@ -153,6 +164,12 @@ $(GENIE_BIN_PATH)/gevdump: gEvDump.o $(call find_libs,gevdump)
 $(GENIE_BIN_PATH)/gevgen_lardm: gEvGenLArDM.o $(call find_libs,gevgen_lardm)
 	@echo "** Building gevgen_lardm"
 	$(LD) $(LDFLAGS) gEvGenLArDM.o $(LIBRARIES) -o $(GENIE_BIN_PATH)/gevgen_lardm
+
+# gevgen event generation utility for use with simple fluxes
+#
+$(GENIE_BIN_PATH)/gevgen_lardnu: gEvGenLArDNu.o $(call find_libs,gevgen_lardnu)
+	@echo "** Building gevgen_lardnu"
+	$(LD) $(LDFLAGS) gEvGenLArDNu.o $(LIBRARIES) -o $(GENIE_BIN_PATH)/gevgen_lardnu
 
 # event topology cherry-picking program
 #
@@ -189,6 +206,12 @@ $(GENIE_BIN_PATH)/gmkspl: gMakeSplines.o $(call find_libs,gmkspl)
 $(GENIE_BIN_PATH)/gmkspl_dm: gMakeSplinesDM.o $(call find_libs,gmkspl_dm)
 	@echo "** Building gmkspl_dm"
 	$(LD) $(LDFLAGS) gMakeSplinesDM.o $(LIBRARIES) -o $(GENIE_BIN_PATH)/gmkspl_dm
+
+# x-section spline building utility for dark neutrino scattering
+#
+$(GENIE_BIN_PATH)/gmkspl_dnu: gMakeSplinesDNu.o $(call find_libs,gmkspl_dnu)
+	@echo "** Building gmkspl_dnu"
+	$(LD) $(LDFLAGS) gMakeSplinesDNu.o $(LIBRARIES) -o $(GENIE_BIN_PATH)/gmkspl_dnu
 
 # utility merging x-section spline xml files
 #

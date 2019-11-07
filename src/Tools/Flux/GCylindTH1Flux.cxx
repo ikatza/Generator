@@ -69,6 +69,7 @@ bool GCylindTH1Flux::GenerateNext(void)
     double Md = PDGLibrary::Instance()->Find(kPdgDarkMatter)->Mass();
     p3.SetMag(TMath::Sqrt(Ev*Ev - Md*Md));
   }
+  // TODO DNU: Anything to do here?
 
   fgP4.SetPxPyPzE(p3.Px(), p3.Py(), p3.Pz(), Ev);
 

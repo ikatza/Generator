@@ -39,6 +39,7 @@ typedef enum EInteractionType {
   kIntWeakNC,      //
   kIntWeakMix,     // CC + NC + interference
   kIntDarkMatter,  // 
+  kIntDarkNeutrino,// 
   kIntNDecay,      //
   kIntNOsc         //
 
@@ -59,6 +60,7 @@ public:
       case(kIntWeakNC)     : return "Weak[NC]";                  break; 
       case(kIntWeakMix)    : return "Weak[CC+NC+interference]";  break;
       case(kIntDarkMatter) : return "DarkMatter";                break; 
+      case(kIntDarkNeutrino):return "DarkNeutrino";              break; 
       case(kIntNDecay)     : return "NucleonDecay";              break;
       case(kIntNOsc)       : return "NeutronOsc";                break;
       default :              return "Unknown";                   break;

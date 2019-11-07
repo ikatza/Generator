@@ -14,6 +14,9 @@
           Changes required to implement the GENIE Boosted Dark Matter module 
           were installed by Josh Berger (Univ. of Wisconsin)
 
+          Changes required to implement the GENIE Dark Neutrino module
+          were installed by Iker de Icaza (Univ. of Sussex)
+
 \created  April 25, 2004
 
 \cpright  Copyright (c) 2003-2019, The GENIE Collaboration
@@ -160,6 +163,13 @@ public:
   static Interaction * DMDI      (int tgt, int nuc, int qrk, bool sea, int probe, double E=0);
   static Interaction * DMDI      (int tgt, int nuc, int probe, const TLorentzVector & p4probe);
   static Interaction * DMDI      (int tgt, int nuc, int qrk, bool sea, int probe, const TLorentzVector & p4probe);
+
+  static Interaction * DNuE       (int tgt, int nuc, int probe, double E=0);
+  static Interaction * DNuE       (int tgt, int nuc, int probe, const TLorentzVector & p4probe);
+  static Interaction * DNuDI      (int tgt, int nuc, int probe, double E=0);
+  static Interaction * DNuDI      (int tgt, int nuc, int qrk, bool sea, int probe, double E=0);
+  static Interaction * DNuDI      (int tgt, int nuc, int probe, const TLorentzVector & p4probe);
+  static Interaction * DNuDI      (int tgt, int nuc, int qrk, bool sea, int probe, const TLorentzVector & p4probe);
 
 private:
 

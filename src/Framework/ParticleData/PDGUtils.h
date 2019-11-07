@@ -11,6 +11,9 @@
            Changes required to implement the GENIE Boosted Dark Matter module
            were installed by Josh Berger (Univ. of Wisconsin)
 
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
+
 \created   May 06, 2004
 
 \cpright   Copyright (c) 2003-2019, The GENIE Collaboration
@@ -46,7 +49,10 @@ namespace pdg
 
   bool IsDarkMatter       (int pdgc);
   bool IsAntiDarkMatter   (int pdgc);
-  
+
+  bool IsDarkNeutrino     (int pdgc);
+  bool IsAntiDarkNeutrino (int pdgc);
+
   bool IsNuE              (int pdgc);
   bool IsNuMu             (int pdgc);
   bool IsNuTau            (int pdgc);

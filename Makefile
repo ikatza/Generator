@@ -29,6 +29,7 @@ INITIAL_BUILD_TARGETS = print-make-info \
 		   physics-nucleon-decay \
 		   physics-nnbar-oscillation \
 		   physics-boosted-dark-matter \
+		   physics-dark-neutrino \
 		   tools-flux-drivers \
 		   tools-geometry-drivers \
 		   tools-masterclass
@@ -143,6 +144,19 @@ ifeq ($(strip $(GOPT_ENABLE_BOOSTED_DARK_MATTER)),YES)
 else
 	@echo " "
 	@echo "** Boosted dark matter library was not enabled. Skipping..."
+endif
+
+
+physics-dark-neutrino:
+	@echo " "
+	@echo "** Building dark neutrino library..."
+ifeq ($(strip $(GOPT_ENABLE_DARK_NEUTRINO)),YES)
+	cd ${GENIE}/src/Physics/DarkNeutrino/EventGen && $(MAKE) && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/XSection && $(MAKE) && \
+	cd ${GENIE}
+else
+	@echo " "
+	@echo "** Dark neutrino library was not enabled. Skipping..."
 endif
 
 
@@ -321,6 +335,9 @@ make-install-dirs: FORCE
 	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/BoostedDarkMatter
 	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/BoostedDarkMatter/XSection
 	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/BoostedDarkMatter/EventGen
+	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/DarkNeutrino
+	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/DarkNeutrino/XSection
+	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/DarkNeutrino/EventGen
 	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/Charm
 	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/Charm/XSection
 	mkdir ${GENIE_INC_INSTALLATION_PATH}/Physics/Coherent
@@ -389,6 +406,8 @@ copy-install-files: FORCE
 	cd ${GENIE}/src/Physics/AnomalyMediatedNuGamma/EventGen  &&  $(MAKE) install && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/XSection       &&  $(MAKE) install && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/EventGen       &&  $(MAKE) install && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/XSection            &&  $(MAKE) install && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/EventGen            &&  $(MAKE) install && \
 	cd ${GENIE}/src/Physics/Charm/XSection                   &&  $(MAKE) install && \
 	cd ${GENIE}/src/Physics/Coherent/XSection                &&  $(MAKE) install && \
 	cd ${GENIE}/src/Physics/Coherent/EventGen                &&  $(MAKE) install && \
@@ -444,6 +463,8 @@ purge: FORCE
 	cd ${GENIE}/src/Physics/AnomalyMediatedNuGamma/EventGen  &&  $(MAKE) purge && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/XSection       &&  $(MAKE) purge && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/EventGen       &&  $(MAKE) purge && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/XSection            &&  $(MAKE) purge && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/EventGen            &&  $(MAKE) purge && \
 	cd ${GENIE}/src/Physics/Charm/XSection                   &&  $(MAKE) purge && \
 	cd ${GENIE}/src/Physics/Coherent/XSection                &&  $(MAKE) purge && \
 	cd ${GENIE}/src/Physics/Coherent/EventGen                &&  $(MAKE) purge && \
@@ -500,6 +521,8 @@ clean-files: FORCE
 	cd ${GENIE}/src/Physics/AnomalyMediatedNuGamma/EventGen  &&  $(MAKE) clean && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/XSection       &&  $(MAKE) clean && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/EventGen       &&  $(MAKE) clean && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/XSection            &&  $(MAKE) clean && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/EventGen            &&  $(MAKE) clean && \
 	cd ${GENIE}/src/Physics/Charm/XSection                   &&  $(MAKE) clean && \
 	cd ${GENIE}/src/Physics/Coherent/XSection                &&  $(MAKE) clean && \
 	cd ${GENIE}/src/Physics/Coherent/EventGen                &&  $(MAKE) clean && \
@@ -569,6 +592,8 @@ distclean: FORCE
 	cd ${GENIE}/src/Physics/AnomalyMediatedNuGamma/EventGen  &&  $(MAKE) distclean && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/XSection       &&  $(MAKE) distclean && \
 	cd ${GENIE}/src/Physics/BoostedDarkMatter/EventGen       &&  $(MAKE) distclean && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/XSection            &&  $(MAKE) distclean && \
+	cd ${GENIE}/src/Physics/DarkNeutrino/EventGen            &&  $(MAKE) distclean && \
 	cd ${GENIE}/src/Physics/Charm/XSection                   &&  $(MAKE) distclean && \
 	cd ${GENIE}/src/Physics/Coherent/XSection                &&  $(MAKE) distclean && \
 	cd ${GENIE}/src/Physics/Coherent/EventGen                &&  $(MAKE) distclean && \

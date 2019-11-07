@@ -11,6 +11,9 @@
           Changes required to implement the GENIE Boosted Dark Matter module
           were installed by Josh Berger (Univ. of Wisconsin)
 
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
+
 \created  May 06, 2004
 
 \cpright  Copyright (c) 2003-2019, The GENIE Collaboration
@@ -51,7 +54,10 @@ typedef enum EScatteringType {
   kScIMDAnnihilation,
   kScDarkMatterElastic = 101,
   kScDarkMatterDeepInelastic,
-  kScDarkMatterElectron
+  kScDarkMatterElectron,
+  kScDarkNeutrinoElastic = 202, // TODO DNU: choose sensible number
+  kScDarkNeutrinoDeepInelastic,
+  kScDarkNeutrinoElectron
 
 } ScatteringType_t;
 
@@ -81,6 +87,9 @@ public:
       case(kScDarkMatterElastic) :       return "DMEL";       break;
       case(kScDarkMatterDeepInelastic) : return "DMDIS";     break;
       case(kScDarkMatterElectron) :      return "DME";     break;
+      case(kScDarkNeutrinoElastic) :     return "DNuEL";     break;
+      case(kScDarkNeutrinoDeepInelastic):return "DNuDIS";    break;
+      case(kScDarkNeutrinoElectron) :    return "DNuE";      break;
       default :                          return "Unknown";   break;
     }
     return "Unknown";

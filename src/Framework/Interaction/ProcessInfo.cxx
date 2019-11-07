@@ -9,6 +9,9 @@
 
          Changes required to implement the GENIE Boosted Dark Matter module
          were installed by Josh Berger (Univ. of Wisconsin)
+
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
 */
 //____________________________________________________________________________
 
@@ -74,6 +77,11 @@ bool ProcessInfo::IsDarkMatterElastic(void) const
   return (fScatteringType == kScDarkMatterElastic);
 }
 //____________________________________________________________________________
+bool ProcessInfo::IsDarkNeutrinoElastic(void) const
+{
+  return (fScatteringType == kScDarkNeutrinoElastic);
+}
+//____________________________________________________________________________
 bool ProcessInfo::IsSingleKaon(void) const
 {
   return (fScatteringType == kScSingleKaon);
@@ -87,6 +95,11 @@ bool ProcessInfo::IsDeepInelastic(void) const
 bool ProcessInfo::IsDarkMatterDeepInelastic(void) const
 {
   return (fScatteringType == kScDarkMatterDeepInelastic);
+}
+//____________________________________________________________________________
+bool ProcessInfo::IsDarkNeutrinoDeepInelastic(void) const
+{
+  return (fScatteringType == kScDarkNeutrinoDeepInelastic);
 }
 //____________________________________________________________________________
 bool ProcessInfo::IsResonant(void) const
@@ -129,6 +142,11 @@ bool ProcessInfo::IsIMDAnnihilation(void) const
 bool ProcessInfo::IsDarkMatterElectronElastic(void) const
 {
   return (fScatteringType == kScDarkMatterElectron);
+}
+//____________________________________________________________________________
+bool ProcessInfo::IsDarkNeutrinoElectronElastic(void) const
+{
+  return (fScatteringType == kScDarkNeutrinoElectron);
 }
 //____________________________________________________________________________
 bool ProcessInfo::IsInverseBetaDecay(void) const
@@ -179,6 +197,11 @@ bool ProcessInfo::IsWeakNC(void) const
 bool ProcessInfo::IsDarkMatter(void) const
 {
   return (fInteractionType == kIntDarkMatter);
+}
+//____________________________________________________________________________
+bool ProcessInfo::IsDarkNeutrino(void) const
+{
+  return (fInteractionType == kIntDarkNeutrino);
 }
 //____________________________________________________________________________
 bool ProcessInfo::IsWeakMix(void) const

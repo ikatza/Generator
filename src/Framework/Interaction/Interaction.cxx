@@ -8,6 +8,9 @@
 
          Changes required to implement the GENIE Boosted Dark Matter module 
          were installed by Josh Berger (Univ. of Wisconsin)
+
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
 */
 //____________________________________________________________________________
 
@@ -252,6 +255,13 @@ string Interaction::AsString(void) const
   else if (fInitialState->Probe()->PdgCode() == kPdgAntiDarkMatter) {
     interaction << "dmb;";
   }
+  // TODO DNU: DNu pdg codes
+  // else if (fInitialState->Probe()->PdgCode() == kPdgAntiDarkMatter) {
+  //   interaction << "dmb;";
+  // }
+  // else if (fInitialState->Probe()->PdgCode() == kPdgAntiDarkMatter) {
+  //   interaction << "dmb;";
+  // }
   else {
     interaction << "nu:"  << fInitialState->ProbePdg() << ";";
   }

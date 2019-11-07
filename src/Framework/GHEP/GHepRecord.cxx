@@ -275,6 +275,13 @@ GEvGenMode_t GHepRecord::EventGenerationMode(void) const
   {
     return kGMdDarkMatterNucleus;
   }
+  
+  // In dark neutrino mode, I don't think is like in DM
+  // TODO DNU
+  if( (pdg::IsDarkNeutrino(p0pdg) || pdg::IsAntiDarkNeutrino(p0pdg)) && p0st == kIStInitialState )
+  {
+    return kGMdDarkNeutrinoNucleus;
+  }
 
   // In hadron+nucleon/nucleus mode, the 1st entry in the event record
   // is a hadron with status code = kIStInitialState and the 2nd entry
@@ -395,6 +402,7 @@ int GHepRecord::ProbePosition(void) const
   GEvGenMode_t mode = this->EventGenerationMode();
   if(mode == kGMdLeptonNucleus || 
      mode == kGMdDarkMatterNucleus ||
+     mode == kGMdDarkNeutrinoNucleus ||
      mode == kGMdHadronNucleus ||
      mode == kGMdPhotonNucleus) 
   {
@@ -412,6 +420,7 @@ int GHepRecord::TargetNucleusPosition(void) const
 
   if(mode == kGMdLeptonNucleus || 
      mode == kGMdDarkMatterNucleus ||
+     mode == kGMdDarkNeutrinoNucleus ||
      mode == kGMdHadronNucleus ||
      mode == kGMdPhotonNucleus) 
   {

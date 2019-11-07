@@ -700,7 +700,7 @@ void GEVGDriver::AssertIsValidInitState(void) const
 {
   assert(fInitState);
   int ppdgc = fInitState->ProbePdg();
-  bool isv = pdg::IsLepton(ppdgc) || pdg::IsDarkMatter(ppdgc) || pdg::IsAntiDarkMatter(ppdgc);
+  bool isv = pdg::IsLepton(ppdgc) || pdg::IsDarkMatter(ppdgc) || pdg::IsAntiDarkMatter(ppdgc) || pdg::IsDarkNeutrino(ppdgc); // TODO DNU
   assert(isv);
 }
 //___________________________________________________________________________

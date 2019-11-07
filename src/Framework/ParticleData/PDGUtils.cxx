@@ -9,6 +9,9 @@
 
          Changes required to implement the GENIE Boosted Dark Matter module
          were installed by Josh Berger (Univ. of Wisconsin)
+
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
 */
 //____________________________________________________________________________
 
@@ -132,6 +135,18 @@ bool genie::pdg::IsAntiDarkMatter(int pdgc)
 {
   bool is_dmbar = (pdgc == kPdgAntiDarkMatter);
   return is_dmbar;
+}
+//____________________________________________________________________________
+bool genie::pdg::IsDarkNeutrino(int pdgc)
+{
+  bool is_dnu = (pdgc == kPdgDarkNeutrino);
+  return is_dnu;
+}
+//____________________________________________________________________________
+bool genie::pdg::IsAntiDarkNeutrino(int pdgc)
+{
+  bool is_dnubar = (pdgc == kPdgAntiDarkNeutrino);
+  return is_dnubar;
 }
 //____________________________________________________________________________
 bool genie::pdg::IsNegChargedLepton(int pdgc)

@@ -275,6 +275,7 @@ void Intranuke2018::TransportHadrons(GHepRecord * evrec) const
   }
   else if(fGMode == kGMdLeptonNucleus ||
 	  fGMode == kGMdDarkMatterNucleus ||
+	  fGMode == kGMdDarkNeutrinoNucleus ||
 	  fGMode == kGMdNucleonDecay) {
     inucl = evrec->RemnantNucleusPosition();
   }

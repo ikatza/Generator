@@ -12,6 +12,9 @@
           Changes required to implement the GENIE Boosted Dark Matter module
           were installed by Josh Berger (Univ. of Wisconsin)
 
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
+
 \created  May 06, 2004
 
 \cpright  Copyright (c) 2003-2019, The GENIE Collaboration
@@ -199,6 +202,10 @@ const int kPdgCompNuclCluster = 2000000300; // Nucleon cluster before phase deca
 const int kPdgDarkMatter      = 2000010000; // Dark matter particle for GENIE Boosted Dark Matter mode
 const int kPdgAntiDarkMatter  = -2000010000; // Dark matter particle for GENIE Boosted Dark Matter mode
 const int kPdgMediator        = 2000010001; // Mediator particle for GENIE Boosted Dark Matter mode
+
+const int kPdgDarkNeutrino    = 2000020000; // Dark matter particle for GENIE Dark Neutrino mode
+const int kPdgAntiDarkNeutrino=-2000020000; // Dark matter particle for GENIE Dark Neutrino mode
+const int kPdgDNuMediator     = 2000020001; // Mediator particle for GENIE Dark Neutrinomode
 
 //
 // PDG codes for special particles used by external generators interfaced with GENIE

@@ -11,6 +11,9 @@
           Changes required to implement the GENIE Boosted Dark Matter module
           were installed by Josh Berger (Univ. of Wisconsin)
 
+          Changes required to implement the GENIE Dark Neutrino module
+          were installed by Iker de Icaza (Univ. of Sussex)
+
           Other minor changes / additions and fixes were installed by: 
           Andy Furmanski (Univ. of Manchester)
           Joe Johnston (Univ of Pittsburgh)
@@ -86,6 +89,11 @@ public:
   bool IsDMN    (void) const; ///< is dark matter   + neutron?
   bool IsDMBP   (void) const; ///< is anti-dark matter   + proton?
   bool IsDMBN   (void) const; ///< is anti-dark matter   + neutron?
+
+  bool IsDNuP    (void) const; ///< is dark neutrino   + proton?
+  bool IsDNuN    (void) const; ///< is dark neutrino   + neutron?
+  bool IsDNuBP   (void) const; ///< is anti-dark neutrino   + proton?
+  bool IsDNuBN   (void) const; ///< is anti-dark neutrino   + neutron?
 
   //-- Copy, reset, compare, print itself and build string code
   void   Reset    (void);

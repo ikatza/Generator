@@ -67,7 +67,8 @@ typedef enum EKinePhaseSpace {
               // TODO: rename this value when the correct variables are identified
   kPSTAfE,
   kPSEgTlOgfE,
-  kPSDMELEvGen // Equivalent to kPSQELEvGen for Dark Matter scattering  
+  kPSDMELEvGen, // Equivalent to kPSQELEvGen for Dark Matter scattering  
+  kPSDNuELEvGen // TODO DNu: Equivalent for Dark Neutrino scattering
 } KinePhaseSpace_t;
 
 class KinePhaseSpace
@@ -121,6 +122,7 @@ public:
       // TODO: update this string when the appropriate kinematic variables are known
       case(kPSQELEvGen)   : return "<QELEvGen>"; break;
       case(kPSDMELEvGen)   : return "<DMELEvGen>"; break;
+      case(kPSDNuELEvGen) : return "<DNuELEvGen>"; break;
       case(kPSTAfE)       : return "<{TA}|E>";   break;
     }
     return "** Undefined kinematic phase space **";

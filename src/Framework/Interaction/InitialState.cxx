@@ -10,6 +10,9 @@
          Changes required to implement the GENIE Boosted Dark Matter module 
          were installed by Josh Berger (Univ. of Wisconsin)
 
+         Changes required to implement the GENIE Dark Neutrino module
+         were installed by Iker de Icaza (Univ. of Sussex)
+
          CMEnergy() method added by Andy Furmanski (Univ. of Manchester) 
          and Joe Johnston (Univ of Pittsburgh)
 */
@@ -272,6 +275,49 @@ bool InitialState::IsDMBN(void) const
 
   return isdn;
 }
+
+//TODO DNU: Modify below
+//___________________________________________________________________________
+bool InitialState::IsDNuP(void) const
+{
+// Check if DNu - proton interaction
+  int  prob = fProbePdg;
+  int  nucl = fTgt->HitNucPdg();
+  bool isdp = pdg::IsDarkNeutrino(prob) && pdg::IsProton(nucl);
+
+  return isdp;
+}
+//___________________________________________________________________________
+bool InitialState::IsDNuN(void) const
+{
+// Check if DNu - neutron interaction
+  int  prob = fProbePdg;
+  int  nucl = fTgt->HitNucPdg();
+  bool isdn = pdg::IsDarkNeutrino(prob) && pdg::IsNeutron(nucl);
+
+  return isdn;
+}
+//___________________________________________________________________________
+bool InitialState::IsDNuBP(void) const
+{
+// Check if DNu - proton interaction
+  int  prob = fProbePdg;
+  int  nucl = fTgt->HitNucPdg();
+  bool isdp = pdg::IsAntiDarkNeutrino(prob) && pdg::IsProton(nucl);
+
+  return isdp;
+}
+//___________________________________________________________________________
+bool InitialState::IsDNuBN(void) const
+{
+// Check if DNu - neutron interaction
+  int  prob = fProbePdg;
+  int  nucl = fTgt->HitNucPdg();
+  bool isdn = pdg::IsAntiDarkNeutrino(prob) && pdg::IsNeutron(nucl);
+
+  return isdn;
+}
+//TODO DNU: Modify above
 //___________________________________________________________________________
 TLorentzVector * InitialState::GetTgtP4(RefFrame_t ref_frame) const
 {
