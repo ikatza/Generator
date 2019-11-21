@@ -476,6 +476,26 @@ Range1D_t KPhaseSpace::WLim(void) const
 
     return Wl;
   }
+  if(is_dnudis) { // TODO DNU: check this whole block
+    const InitialState & init_state = fInteraction->InitState();
+    double Ev = init_state.ProbeE(kRfHitNucRest);
+    double M  = init_state.Tgt().HitNucP4Ptr()->M(); //can be off m/shell
+    double ml = fInteraction->FSPrimLepton()->Mass();
+    Wl = kinematics::DarkWLim(Ev,M,ml);
+    if(fInteraction->ExclTag().IsCharmEvent()) {
+      //Wl.min = TMath::Max(Wl.min, kNeutronMass+kPionMass+kLightestChmHad);
+      Wl.min = TMath::Max(Wl.min, kNeutronMass+kLightestChmHad);
+    }
+    else if (fInteraction->ProcInfo().IsDiffractive())
+      Wl.min = TMath::Max(Wl.min, kNeutronMass+kPionMass);
+
+    LOG("KPhaseSpace", pDEBUG) << "Found nominal limits: " << Wl.min << ", " << Wl.max;
+
+    // sanity check
+    if(Wl.min>Wl.max) {Wl.min=-1; Wl.max=-1;}
+
+    return Wl;
+  }
   return Wl;
 }
 //____________________________________________________________________________
@@ -505,7 +525,7 @@ Range1D_t KPhaseSpace::Q2Lim_W(void) const
   bool is_dnue   = pi.IsDarkNeutrinoElastic();
   bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
 
-  if(!is_qel && !is_inel && !is_coh && !is_dme && !is_dmdis) return Q2l;
+  if(!is_qel && !is_inel && !is_coh && !is_dme && !is_dmdis && !is_dnue && !is_dnudis) return Q2l;
 
   if(is_coh) {
     return Q2Lim();
@@ -518,6 +538,9 @@ Range1D_t KPhaseSpace::Q2Lim_W(void) const
 
   double W = 0;
   if(is_qel || is_dme) W = fInteraction->RecoilNucleon()->Mass();
+  else       W = kinematics::W(fInteraction);
+
+  if(is_qel || is_dnue) W = fInteraction->RecoilNucleon()->Mass(); //TODO DNU: this if/else
   else       W = kinematics::W(fInteraction);
 
   if (pi.IsInverseBetaDecay()) {
@@ -564,7 +587,7 @@ Range1D_t KPhaseSpace::Q2Lim(void) const
   bool is_dnue   = pi.IsDarkNeutrinoElastic();
   bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
 
-  if(!is_qel && !is_inel && !is_coh && !is_cevns && !is_dme && !is_dmdis) return Q2l;
+  if(!is_qel && !is_inel && !is_coh && !is_cevns && !is_dme && !is_dmdis && !is_dnue && !is_dnudis) return Q2l; // TODO DNU: this line
 
   const InitialState & init_state = fInteraction->InitState();
   double Ev  = init_state.ProbeE(kRfHitNucRest);
@@ -633,6 +656,26 @@ Range1D_t KPhaseSpace::Q2Lim(void) const
     return Q2l;
   }
 
+  // dark neutrino elastic //TODO DNU: this block
+  if(is_dnue) {
+    double W = fInteraction->RecoilNucleon()->Mass();
+    if(xcls.IsCharmEvent()) {
+      int charm_pdgc = xcls.CharmHadronPdg();
+      W = PDGLibrary::Instance()->Find(charm_pdgc)->Mass();
+    }  else if(xcls.IsStrangeEvent()) {
+      int strange_pdgc = xcls.StrangeHadronPdg();
+      W = PDGLibrary::Instance()->Find(strange_pdgc)->Mass();
+    }
+    if (pi.IsInverseBetaDecay()) {
+      Q2l = kinematics::DarkQ2Lim_W(Ev,M,ml,W,controls::kMinQ2Limit_VLE);
+    } else {
+      Q2l = kinematics::DarkQ2Lim_W(Ev,M,ml,W);
+    }
+
+
+    return Q2l;
+  }
+
   // was MECTensor
   // TODO: Q2maxConfig
   if (pi.IsMEC()){
@@ -644,6 +687,11 @@ Range1D_t KPhaseSpace::Q2Lim(void) const
   }
 
   if (is_dmdis) {
+    Q2l = kinematics::DarkQ2Lim(Ev,M,ml);
+    return Q2l;
+  }
+
+  if (is_dnudis) {// TODO DNU: this block
     Q2l = kinematics::DarkQ2Lim(Ev,M,ml);
     return Q2l;
   }
@@ -852,9 +900,9 @@ Range1D_t KPhaseSpace::YLim_X(void) const
     yl = kinematics::DarkYLim_X(Ev,M,ml,x);
     return yl;
   }
-  //DNuDIS
+  //DNuDIS // TODO DNU: this block
   bool is_dnudis = pi.IsDarkNeutrinoDeepInelastic();
-  if(is_dmdis) {
+  if(is_dnudis) {
     const InitialState & init_state = fInteraction->InitState();
     double Ev  = init_state.ProbeE(kRfHitNucRest);
     double M   = init_state.Tgt().HitNucP4Ptr()->M(); // can be off m/shell

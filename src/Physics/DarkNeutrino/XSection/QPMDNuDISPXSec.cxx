@@ -72,7 +72,7 @@ double QPMDNuDISPXSec::XSec(
   // Get kinematical & init-state parameters
   const Kinematics &   kinematics = interaction -> Kine();
   const InitialState & init_state = interaction -> InitState();
-  const ProcessInfo &  proc_info  = interaction -> ProcInfo(); // comment-out unused variable to eliminate warnings
+  const ProcessInfo &  proc_info  = interaction -> ProcInfo(); // TODO DNU:  unused variable
 
   LOG("DNuDISPXSec", pDEBUG) << "Using v^" << fVelMode << " dependence";
   

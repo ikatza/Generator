@@ -154,7 +154,7 @@ multimap<int,bool> DNuDISInteractionListGenerator::GetHitQuarks(
 
   multimap<int,bool> hq;
 
-  const ProcessInfo & proc = interaction->ProcInfo();
+  const ProcessInfo & proc = interaction->ProcInfo(); // TODO DNU: warning: unused variable proc
 
   if(!fIsCharm) {
     hq.insert(pair<int,bool>(kPdgUQuark,     false));
