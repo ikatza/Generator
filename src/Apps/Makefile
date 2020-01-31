@@ -1,7 +1,7 @@
 #
 # Makefile for GENIE Apps
 #
-# Costas Andreopoulos <costas.andreopoulos \at stfc.ac.uk>
+# Costas Andreopoulos <constantinos.andreopoulos \at cern.ch>
 #
 
 SHELL = /bin/sh
@@ -16,7 +16,8 @@ GENIE_LIBS  = $(shell $(GENIE)/src/scripts/setup/genie-config --libs)
 
 # Mac OS X -bind_at_load means we must list the low level libraries
 # first, and each stage must fully resolved before the next library
-LIBRARIES  := $(LIBRARIES) $(CERN_LIBRARIES) $(GENIE_LIBS)
+LIBRARIES  := $(LIBRARIES) $(GENIE_LIBS)
+#LIBRARIES  := $(LIBRARIES) $(CERN_LIBRARIES) $(GENIE_LIBS)
 
 TGT_BASE =  gevgen          \
             gevgen_hadron   \

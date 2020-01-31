@@ -5,20 +5,19 @@
 
 \brief     Utilities for improving the code readability when using PDG codes.
 
-\author    Costas Andreopoulos <costas.andreopoulos \at stfc.ac.uk>
-           University of Liverpool & STFC Rutherford Appleton Lab
+\author    Costas Andreopoulos <constantinos.andreopoulos \at cern.ch>
+           University of Liverpool & STFC Rutherford Appleton Laboratory
 
            Changes required to implement the GENIE Boosted Dark Matter module
            were installed by Josh Berger (Univ. of Wisconsin)
 
-         Changes required to implement the GENIE Dark Neutrino module
-         were installed by Iker de Icaza (Univ. of Sussex)
+           Changes required to implement the GENIE Dark Neutrino module
+           were installed by Iker de Icaza (Univ. of Sussex)
 
 \created   May 06, 2004
 
-\cpright   Copyright (c) 2003-2019, The GENIE Collaboration
+\cpright   Copyright (c) 2003-2020, The GENIE Collaboration
            For the full text of the license visit http://copyright.genie-mc.org
-           or see $GENIE/LICENSE
 */
 //____________________________________________________________________________
 
@@ -37,7 +36,7 @@ namespace pdg
   int  IonPdgCodeToA      (int pdgc);
   int  IonPdgCode         (int A, int Z);
   int  IonPdgCode         (int A, int Z, int L, int I);
-  
+
   bool IsLepton           (int pdgc);
   bool IsNeutralLepton    (int pdgc);
   bool IsChargedLepton    (int pdgc);
@@ -59,14 +58,14 @@ namespace pdg
   bool IsAntiNuE          (int pdgc);
   bool IsAntiNuMu         (int pdgc);
   bool IsAntiNuTau        (int pdgc);
-  
+
   bool IsElectron         (int pdgc);
   bool IsPositron         (int pdgc);
   bool IsMuon             (int pdgc);
   bool IsAntiMuon         (int pdgc);
   bool IsTau              (int pdgc);
   bool IsAntiTau          (int pdgc);
-  
+
   bool IsDiQuark          (int pdgc);
   bool IsQuark            (int pdgc);
   bool IsUQuark           (int pdgc);
@@ -78,7 +77,7 @@ namespace pdg
   bool IsAntiDQuark       (int pdgc);
   bool IsAntiSQuark       (int pdgc);
   bool IsAntiCQuark       (int pdgc);
-  
+
   bool IsKaon             (int pdgc);
   bool IsPion             (int pdgc);
   bool IsProton           (int pdgc);
@@ -88,7 +87,7 @@ namespace pdg
   bool IsHadron           (int pdgc);
   bool IsBaryonResonance  (int pdgc);
   bool Is2NucleonCluster  (int pdgc);
-  
+
   int  SwitchProtonNeutron    (int pdgc);
   int  ModifyNucleonCluster   (int pdgc, int dQ);
   int  Neutrino2ChargedLepton (int pdgc);

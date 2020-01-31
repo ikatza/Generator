@@ -1,17 +1,16 @@
 //____________________________________________________________________________
 /*
- Copyright (c) 2003-2019, The GENIE Collaboration
+ Copyright (c) 2003-2020, The GENIE Collaboration
  For the full text of the license visit http://copyright.genie-mc.org
- or see $GENIE/LICENSE
 
- Author: Costas Andreopoulos <costas.andreopoulos \at stfc.ac.uk>
-         University of Liverpool & STFC Rutherford Appleton Lab 
+ Costas Andreopoulos <constantinos.andreopoulos \at cern.ch>
+ University of Liverpool & STFC Rutherford Appleton Laboratory
 
-         Changes required to implement the GENIE Boosted Dark Matter module
-         were installed by Josh Berger (Univ. of Wisconsin)
+ Changes required to implement the GENIE Boosted Dark Matter module
+ were installed by Josh Berger (Univ. of Wisconsin)
 
-         Changes required to implement the GENIE Dark Neutrino module
-         were installed by Iker de Icaza (Univ. of Sussex)
+ Changes required to implement the GENIE Dark Neutrino module
+ were installed by Iker de Icaza (Univ. of Sussex)
 */
 //____________________________________________________________________________
 
@@ -282,4 +281,3 @@ ProcessInfo & ProcessInfo::operator = (const ProcessInfo & proc)
   return (*this);
 }
 //____________________________________________________________________________
-
